@@ -73,7 +73,7 @@
 }
 
 .buttonMain:hover,
-.button-92:focus-visible {
+.buttonMain:focus-visible {
   --_p: 0%;
   --_i: 1;
 }
@@ -91,4 +91,107 @@
   margin: 0;
   cursor: pointer;
   padding: .1em .3em;
+}
+
+/* Settings button and card styles */
+.settings-container {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 80;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    pointer-events: none;
+}
+
+/* the clickable icon */
+.settings-button {
+    pointer-events: auto;
+    background: rgba(255,255,255,0.95);
+    border: 0;
+    padding: 6px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: transform .16s ease, box-shadow .16s ease, background .12s ease;
+    z-index: 90;
+}
+
+.settings-button:focus { outline: 2px solid rgba(0,77,255,0.25); outline-offset: 2px; }
+.settings-button:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,0.22); }
+
+.settings-button img {
+    width: 28px;
+    height: 28px;
+    display:block;
+    object-fit: contain;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* the card that appears behind the icon */
+.settings-card {
+    pointer-events: auto;
+    position: absolute;
+    left: 72px;
+    top: 8px;
+    width: 280px;
+    max-width: calc(100vw - 40px);
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,245,250,0.95));
+    box-shadow: 0 12px 40px rgba(5,10,20,0.45);
+    transform-origin: 0 12%;
+    transform: translateY(-8px) scale(.96);
+    opacity: 0;
+    transition: transform .22s cubic-bezier(.2,.9,.3,1), opacity .18s ease;
+    z-index: 70;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(10,12,20,0.06);
+    color: #0b0b0b;
+}
+.settings-card.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+.settings-card h3 {
+    margin: 0 0 6px 0;
+    font-size: 15px;
+}
+.settings-card .muted {
+    margin: 0 0 8px 0;
+    color: rgba(0,0,0,0.6);
+    font-size: 13px;
+}
+.settings-card ul {
+    margin: 6px 0 12px 18px;
+    padding: 0;
+    font-size: 14px;
+    color: rgba(0,0,0,0.85);
+}
+.settings-close {
+    display: inline-block;
+    background: transparent;
+    border: 0;
+    color: rgba(0,0,0,0.8);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 8px;
+    transition: background .12s ease;
+}
+.settings-close:hover { background: rgba(0,0,0,0.06); }
+
+/* mobile responsiveness */
+@media (max-width: 420px) {
+    .settings-button { width:44px; height:44px; }
+    .settings-button img { width:24px; height:24px; }
+    /* keep some space between icon and card on small screens */
+    .settings-card { width: 220px; left: 56px; top: 6px; padding: 12px; }
 }
