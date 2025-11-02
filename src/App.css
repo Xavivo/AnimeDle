@@ -2,6 +2,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Fontdiner+Swanky&family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 
+/* Theme variables */
+:root {
+  --bg-color: rgba(255, 255, 255, 0.95);
+  --text-color: #ffffff;
+  --card-bg: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,245,250,0.95));
+  --card-border: rgba(10,12,20,0.06);
+  --button-hover: rgba(0,0,0,0.06);
+  --button-bg: rgba(255, 255, 255, 0.95);
+  --button-shadow: rgba(0, 0, 0, 0.18);
+  --button-main-bg: #004dff;
+  --button-text: #fff;
+  --music-button-bg: #004dff;
+  --background-overlay: rgba(0, 0, 0, 0);
+  --text-color-main: #000000;
+  --text-color-settings: #000000;
+}
+
+[data-theme="dark"] {
+  --bg-color: rgba(20, 20, 25, 0.95);
+  --text-color: #ffffff;
+  --card-bg: linear-gradient(180deg, rgba(30,30,35,0.98), rgba(25,25,30,0.95));
+  --card-border: rgba(255,255,255,0.06);
+  --button-hover: rgba(255,255,255,0.06);
+  --button-bg: rgba(30, 30, 35, 0.95);
+  --button-shadow: rgba(0, 0, 0, 0.35);
+  --button-main-bg: rgba(30, 30, 35, 0.95);
+  --button-text: #fff;
+  --music-button-bg: rgba(30, 30, 35, 0.95);
+  --background-overlay: rgba(0, 0, 0, 0.75);
+  --text-color-main: #ffffff;
+  --text-color-settings: #ffffff;
+}
+
+
 .background {
     margin: 0;
     padding: 0;
@@ -13,6 +47,14 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+    &::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-color: var(--background-overlay);
+        z-index: -1;
+        transition: background-color 0.3s ease;
+    }
 }
 
 .mainTitle {
@@ -21,6 +63,7 @@
     color: rgb(0, 0, 0);
     margin-top: 10px;
     font-size: 100px;
+    color: var(--text-color-main);
 }
 
 .subtitle {
@@ -38,6 +81,8 @@
     background-color: rgba(245, 245, 220, 0.2);
     box-shadow: 0 0 16px 4px rgba(0,0,0,0.60);
     backdrop-filter: blur(10px);
+    border-color: var(--card-border);
+    background-color: var(--bg-color);
 }
 
 .header {
@@ -61,8 +106,9 @@
 
 /*This button style below is from https://codepen.io/micku7zu/pen/LYGPrzK, credits to the author Mickael Jeanroy*/
 .buttonMain {
-  --c: #fff;
-  background: linear-gradient(90deg, #0000 33%, #fff5, #0000 67%) var(--_p,100%)/300% no-repeat, #004dff;
+  --c: var(--button-text);
+  background: linear-gradient(90deg, #0000 33%, var(--button-text, #fff5), #0000 67%) var(--_p,100%)/300% no-repeat,
+              var(--button-main-bg);
   color: #0000;
   border: none;
   transform: perspective(500px) rotateY(calc(20deg*var(--_i,-1)));
@@ -70,17 +116,19 @@
     calc(var(--_i,-1)*-0.08em)  .01em 2px #0004;
   outline-offset: .1em;
   transition: 0.3s;
+  box-shadow: 0 8px 20px var(--button-shadow);
 }
 
 .buttonMain:hover,
 .buttonMain:focus-visible {
   --_p: 0%;
   --_i: 1;
+  box-shadow: 0 10px 26px var(--button-shadow);
 }
 
 .buttonMain:active {
   text-shadow: none;
-  color: var(--c);
+  color: var(--button-text);  /* use theme variable here too */
   box-shadow: inset 0 0 9e9q #0005;
   transition: 0s;
 }
@@ -105,14 +153,13 @@
     pointer-events: none;
 }
 
-/* the clickable icon */
 .settings-button {
     pointer-events: auto;
-    background: rgba(255,255,255,0.95);
+    background: var(--button-bg);
     border: 0;
     padding: 6px;
     border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+    box-shadow: 0 8px 20px var(--button-shadow);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -124,7 +171,10 @@
 }
 
 .settings-button:focus { outline: 2px solid rgba(0,77,255,0.25); outline-offset: 2px; }
-.settings-button:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,0.22); }
+.settings-button:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 10px 26px var(--button-shadow);
+}
 
 .settings-button img {
     width: 28px;
@@ -135,7 +185,7 @@
     pointer-events: none;
 }
 
-/* the card that appears behind the icon */
+/* the card that appears besides the icon */
 .settings-card {
     pointer-events: auto;
     position: absolute;
@@ -145,7 +195,7 @@
     max-width: calc(100vw - 40px);
     padding: 14px 16px;
     border-radius: 12px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,245,250,0.95));
+    background: var(--card-bg);
     box-shadow: 0 12px 40px rgba(5,10,20,0.45);
     transform-origin: 0 12%;
     transform: translateY(-8px) scale(.96);
@@ -153,8 +203,8 @@
     transition: transform .22s cubic-bezier(.2,.9,.3,1), opacity .18s ease;
     z-index: 70;
     backdrop-filter: blur(6px);
-    border: 1px solid rgba(10,12,20,0.06);
-    color: #0b0b0b;
+    border: 1px solid var(--card-border);
+    color: var(--text-color-settings);
 }
 .settings-card.open {
     transform: translateY(0) scale(1);
@@ -179,14 +229,37 @@
     display: inline-block;
     background: transparent;
     border: 0;
-    color: rgba(0,0,0,0.8);
+    color: var(--text-color-settings);
     font-weight: 600;
     cursor: pointer;
     padding: 6px 8px;
     border-radius: 8px;
     transition: background .12s ease;
 }
-.settings-close:hover { background: rgba(0,0,0,0.06); }
+.settings-close:hover { background: var(--button-hover); }
+
+.settings-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  margin-bottom: 12px;
+}
+
+.theme-toggle {
+  background: transparent;
+  border: 1px solid var(--card-border);
+  color: var(--text-color-settings);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.theme-toggle:hover {
+  background: var(--button-hover);
+}
 
 /* mobile responsiveness */
 @media (max-width: 420px) {
@@ -194,4 +267,41 @@
     .settings-button img { width:24px; height:24px; }
     /* keep some space between icon and card on small screens */
     .settings-card { width: 220px; left: 56px; top: 6px; padding: 12px; }
+}
+
+.music-container {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 60;
+}
+
+.music-button {
+  background: var(--music-button-bg);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px var(--button-shadow);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+  transition: transform .16s ease, box-shadow .16s ease, background-color .3s ease;
+}
+
+.music-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px var(--button-shadow);
+}
+
+.music-button:active {
+  transform: translateY(0);
+}
+
+/* mobile adjustments */
+@media (max-width: 420px) {
+  .music-button {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
 }
